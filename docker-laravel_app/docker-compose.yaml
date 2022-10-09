@@ -24,7 +24,13 @@ services:
     volumes:
       - ./src:/var/www/html:delegated
 
-  # mysql:
+  # mysql 공식 이미지
+  # 구동에 필요한 환경변수 설정이 필요하다.
+  mysql:
+    image: 'mysql:5.7'
+    env_file:
+      - ./env/mysql.env
+
   # composer:
   # artisan:
   # npm:
