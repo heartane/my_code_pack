@@ -1,0 +1,12 @@
+# 다중 컨테이너를 구축하고 컨테이너들 간 상호작용이 필요하기 때문에
+# 컴포즈 파일로 컨테이너에 대한 정보 문서화하기
+version: '3.8'
+
+# 컨테이너화 할 타겟 설정
+services:
+  server:
+  php:
+  mysql:
+  composer:
+  artisan:
+  npm:
