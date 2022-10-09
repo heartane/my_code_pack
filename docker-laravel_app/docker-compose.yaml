@@ -6,7 +6,10 @@ services:
   # php 파일에 대한 요청만으로 포워딩하기 때문에 소스 코드가 필요하다.
   # nginx 구성 커스텀을 반영하기 위해서는 바인드 마운트 필요
   server:
-    image: 'nginx:stable-alpine'
+    # 빌드에 필요한 폴더 참조 범위를 고려해서 context 경로를 설정해야 한다.
+    build:
+      context: .
+      dockerfile: dockerfiles/nginx.dockerfile
     ports:
       - '8000:80'
     volumes:
@@ -23,8 +26,8 @@ services:
   php:
     # php 공식 이미지를 기반으로 확장 프로그램을 가진 커스텀 이미지 생성
     build:
-      context: ./dockerfiles
-      dockerfile: php.dockerfile
+      context: .
+      dockerfile: dockerfiles/php.dockerfile
 
     # PHP 인터프리터는 소스코드에 접근 가능해야 한다.
     # delegated -> 안전성은 떨어지나 속도가 향상되는 최적화 옵션
@@ -53,8 +56,8 @@ services:
   # PHP로 빌드된 Laravel 명령으로 PHP가 필요하기에 php.dockerfile 재사용
   artisan:
     build:
-      context: ./dockerfiles
-      dockerfile: php.dockerfile
+      context: .
+      dockerfile: dockerfiles/php.dockerfile
     volumes:
       - ./src:/var/www/html
 
